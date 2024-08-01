@@ -1,45 +1,46 @@
 import mongoose from "mongoose";
 
-const postShema  = mongoose.Schema({
-      postedBy:{
+const postShema = mongoose.Schema({
+      postedBy: {
             type: mongoose.Schema.Types.ObjectId,
-            ref:"User",
-            required:true
+            ref: 'User',
+            required: true
       },
-      text:{
-            type:String,
-            maxLength:500
+      text: {
+            type: String,
+            maxLength: 500
       },
-      img:{
-            type:String
+      img: {
+            type: String
       },
-      likes:{
-            type:Number,
-            default:0
+      likes: {
+            type: [mongoose.Schema.Types.ObjectId],
+            ref: "User",
+            default: [],
       },
-      replies:[
+      replies: [
             {
-                  userId:{
-                        type:mongoose.Schema.Types.ObjectId,
-                        ref:"User",
-                        required:true
+                  userId: {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: "User",
+                        required: true
                   },
-                  text:{
-                        type:String,
-                        required:true
+                  text: {
+                        type: String,
+                        required: true
                   },
-                  userProfilePic:{
-                        type:String,
+                  userProfilePic: {
+                        type: String,
                   },
-                  username:{
-                        type:String,
+                  username: {
+                        type: String,
                   }
             }
       ]
 
-},{
-      timestamps:true
+}, {
+      timestamps: true
 })
 
-const Post = mongoose.mondel("Post",postShema)
+const Post = mongoose.model("Post", postShema)
 export default Post;
