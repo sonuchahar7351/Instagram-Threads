@@ -48,7 +48,7 @@ export default function Login() {
       dispatch(setUser(data));
       // window.location.reload();
     } catch (error) {
-      console.log(error);
+      showToast("error",error,"error")
     }
   };
 

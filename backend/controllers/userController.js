@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import bcrypt from 'bcryptjs'
 import generateTokenAndSetCookie from "../utils/helper/generatetokenandSetCookie.js";
+import {v2 as cloudinary} from 'cloudinary'
 
 
 //sign up user 
@@ -35,6 +36,8 @@ export const signupUser = async (req, res) => {
                         name: newUser.name,
                         email: newUser.email,
                         username: newUser.username,
+                        bio: newUser.bio,
+                        profilePic: newUser.profilePic
                   })
             } else {
                   res.status(400).json({error:"invalid user"})
@@ -68,6 +71,8 @@ export const loginUser = async (req, res) => {
                         name: user.name,
                         email: user.email,
                         username: user.username,
+                        bio: user.bio,
+                        profilePic: user.profilePic,
                   });
 
             } catch (error) {
@@ -131,7 +136,8 @@ export const loginUser = async (req, res) => {
 
       //update user profile 
       export const updateUserProfile = async (req, res) => {
-            const { name, email, username, password, profilePic, bio } = req.body;
+            const { name, email, username, password, bio } = req.body;
+            let {profilePic} = req.body;
             const userId = req.user._id;
             try {
 
@@ -146,6 +152,14 @@ export const loginUser = async (req, res) => {
                         user.password = hashPassword;
                   }
 
+                  if(profilePic){
+                        if(user.profilePic){
+                              await cloudinary.uploader.destroy(user.profilePic.split("/").pop().split(".")[0])
+                        }
+                        const uploadedResponse = await cloudinary.uploader.upload(profilePic);
+                        profilePic = uploadedResponse.secure_url;
+                  }
+
                   user.name = name || user.name;
                   user.email = email || user.email;
                   user.username = username || user.username;
@@ -154,7 +168,9 @@ export const loginUser = async (req, res) => {
 
                   user = await user.save();
 
-                  res.status(200).json({ message: "profile updated succussfully", user })
+                  //password should be null in response
+                  user.password=null;
+                  res.status(200).json( user )
 
             } catch (error) {
                   res.status(500).json({ error: "error in update profile" })
@@ -166,7 +182,7 @@ export const loginUser = async (req, res) => {
             const { username } = req.params;
             try {
                   const user = await User.findOne({ username }).select("-password").select("-updatedAt");
-                  if (!user) return res.status(400).json({ message: "user not found" });
+                  if (!user) return res.status(400).json({ error: "user not found" });
                   res.status(200).json(user)
 
             } catch (error) {

@@ -8,6 +8,7 @@ import AuthPage from "./pages/AuthPage";
 import { useSelector } from "react-redux";
 import LogoutButton from "./components/LogoutButton";
 import { useEffect, useState } from "react";
+import UpdateProfile from "./pages/UpdateProfile";
 
 function App() {
   const User = useSelector((state) => state.user.preUser);
@@ -23,6 +24,10 @@ function App() {
         <Route
           path="/auth"
           element={!User ? <AuthPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/update"
+          element={User ? <UpdateProfile /> : <Navigate to="/auth" />}
         />
         <Route path="/:username" element={<UserPage />} />
         <Route path="/:username/post/:pid" element={<PostPage />} />

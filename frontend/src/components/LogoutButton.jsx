@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../features/userSlice";
 import useShowToast from "../hooks/useShowToast";
+import {FiLogOut} from 'react-icons/fi'
 
 const LogoutButton = () => {
   const user = useSelector((state) => state.user.preUser);
@@ -18,7 +19,7 @@ const LogoutButton = () => {
         },
       });
       const data = await res.json();
-      console.log(data);
+     
       if (data.error) {
         showToast("error", data.error, "error");
         return;
@@ -38,7 +39,7 @@ const LogoutButton = () => {
       size={"sm"}
       onClick={handleLogout}
     >
-      Logout
+      <FiLogOut size={20}/>
     </Button>
   );
 };
