@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../features/userSlice";
 import useShowToast from "../hooks/useShowToast";
 import {FiLogOut} from 'react-icons/fi'
+import { useNavigate } from "react-router-dom";
 
 const LogoutButton = () => {
   const user = useSelector((state) => state.user.preUser);
   const dispatch = useDispatch();
   const showToast = useShowToast();
+  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       //fetch
@@ -27,6 +29,7 @@ const LogoutButton = () => {
 
       localStorage.removeItem("user-threads");
       dispatch(setUser(null));
+      navigate('/auth');
     } catch (error) {
       console.log(error);
     }

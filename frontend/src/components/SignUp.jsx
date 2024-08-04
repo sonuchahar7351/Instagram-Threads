@@ -27,6 +27,7 @@ import { useNavigate } from "react-router-dom";
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
+  const [loading,setLoading] = useState(false);
   const [input,setInput]=useState({
       name:"",
       username:"",
@@ -35,7 +36,7 @@ export default function SignUp() {
   })
   const showToast = useShowToast();
   const  handleSignUp = async()=>{
-    
+    setLoading(true);
         try {
             const res = await fetch('/api/users/signup',{
                   method: "POST",
@@ -55,6 +56,8 @@ export default function SignUp() {
             
         } catch (error) {
             console.log(error);
+        }finally{
+          setLoading(false)
         }
   }
 
@@ -121,7 +124,7 @@ export default function SignUp() {
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
-                loadingText="Submitting"
+                loadingText="Loading"
                 size="lg"
                 bg={useColorModeValue("gray.600", "gray.700")}
                 color={"white"}
@@ -129,6 +132,7 @@ export default function SignUp() {
                   bg: useColorModeValue("gray.700", "gray.800"),
                 }}
                 onClick={handleSignUp}
+                isLoading={loading}
               >
                 Sign up
               </Button>

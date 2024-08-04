@@ -25,14 +25,17 @@ import { setUser } from "../features/userSlice";
         password: "",
         bio: user.bio,
       });
-    
+      
       const fileRef = useRef(null);
       const showToast = useShowToast();
+      const [updating,setUpdating] = useState(false)
     
       const { handleImageChange, imageUrl } = UsePreviewimg();
     
       const handleSubmit=async(e)=>{
          e.preventDefault();
+         if(updating) return;
+         setUpdating(true)
          try {
           const res = await fetch(`/api/users/update/${user._id}`,{
                 method: "PUT",
@@ -42,16 +45,20 @@ import { setUser } from "../features/userSlice";
                 body: JSON.stringify({...inputs,profilePic:imageUrl})
           })
           const data = await res.json();
+          console.log(data.profilePic);
           if(data.error){
             showToast("error",data.error,"error")
           }
 
-         showToast("succuss","profile update succussfully","succuss");
+       
          dispatch(setUser(data));
          localStorage.setItem("user-threads",JSON.stringify(data));
+            showToast("success","profile update succussfully","success");
 
          } catch (error) {
            showToast("error",error,"error")
+         }finally{
+          setUpdating(false);
          }
       }
     
@@ -165,6 +172,7 @@ import { setUser } from "../features/userSlice";
                     bg: "green.500",
                   }}
                   type="submit"
+                  isLoading={updating}
                 >
                   Submit
                 </Button>

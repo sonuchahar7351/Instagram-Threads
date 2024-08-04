@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import LogoutButton from "./components/LogoutButton";
 import { useEffect, useState } from "react";
 import UpdateProfile from "./pages/UpdateProfile";
+import CreatePost from "./components/CreatePost";
 
 function App() {
   const User = useSelector((state) => state.user.preUser);
@@ -34,6 +35,7 @@ function App() {
       </Routes>
 
       {User && <LogoutButton />}
+      {User && <CreatePost />}
     </Container>
   );
 }
