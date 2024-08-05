@@ -8,7 +8,6 @@ import { Link as RouterLink } from "react-router-dom";
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode(); // Destructure for clarity
   const user = useSelector((state) => state.user.preUser);
-
   return (
     <Flex justifyContent={user? 'space-between' : 'center'} mt={6} mb={12}>
       {user && (

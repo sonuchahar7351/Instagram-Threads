@@ -7,13 +7,11 @@ import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 import { useSelector } from "react-redux";
 import LogoutButton from "./components/LogoutButton";
-import { useEffect, useState } from "react";
 import UpdateProfile from "./pages/UpdateProfile";
 import CreatePost from "./components/CreatePost";
 
 function App() {
   const User = useSelector((state) => state.user.preUser);
-
   return (
     <Container maxW="620px">
       <Header />

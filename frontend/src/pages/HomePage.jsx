@@ -9,19 +9,19 @@ const HomePage = () => {
   const [loading,setLoading] = useState(true);
   
   // fetch user
-  
-
   useEffect(()=>{
    const getFeedPost = async () =>{
+   
     setLoading(true);
      try {
-       const res = await fetch("api/posts/feed");
+       const res = await fetch("/api/posts/feed");
        const data = await res.json();
        if(data.error){
         showToast("error",data.error,"error");
         return;
        }
        setPosts(data);
+        // console.log(data[0].postedBy);
      } catch (error) {
        showToast("error",error,"error")
      }finally{
@@ -30,7 +30,8 @@ const HomePage = () => {
    }
    getFeedPost();
 
-  },[showToast])
+  },[])
+
   return (
    <>
     {!loading && posts.length ===0 && <h1>Follow some users to see the feed</h1>}
@@ -39,8 +40,8 @@ const HomePage = () => {
         <Spinner size={"xl"}/>
       </Flex>
      )}
-     {posts.map((post)=>(
-      <Post key={post._id} post={post} postedBy={post.postedBy}/>
+     {posts?.map((post)=>(
+      <Post key={post._id} post={post} postedBy={post.postedBy._id}/>
      ))}
    </>
   );

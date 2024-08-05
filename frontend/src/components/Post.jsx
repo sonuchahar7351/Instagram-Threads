@@ -6,21 +6,21 @@ import useShowToast from "../hooks/useShowToast";
 import {formatDistanceToNow} from 'date-fns';
 
 const Post = ({ post, postedBy }) => {
-  const [liked, setLiked] = useState(false);
+  // console.log(postedBy);
   const [user, setUser] = useState(null);
   const showToast = useShowToast();
   const navigate = useNavigate();
-
+  //  console.log(postedBy);
   useEffect(() => {
     const getUser = async () => {
       try {
         const res = await fetch(
-          `/api/users/profile/${postedBy._id || postedBy.username}`
+          `/api/users/profile/${postedBy}`
         );
         const data = await res.json();
 
         if (data.error) {
-          showToast("error", data.error, "error");
+           showToast("error", data.error, "error");
           return;
         }
         setUser(data);
@@ -31,6 +31,7 @@ const Post = ({ post, postedBy }) => {
     };
     getUser();
   }, [postedBy, showToast]);
+  // console.log(user);
 
   return (
     <Link to={`/${user?.username}/post/${post._id}`}>
@@ -93,7 +94,7 @@ const Post = ({ post, postedBy }) => {
               <Image src="/verified.png" w={4} h={4} ml={1} />
             </Flex>
             <Flex gap={4} alignItems={"center"}>
-              <Text fontStyle={"sm"} color={"gray.light"}>
+              <Text fontSize={"xs"} width={36} textAlign={"right"}  color={"gray.light"}>
                {formatDistanceToNow(new Date(post.createdAt))} ago
               </Text>
              
@@ -111,17 +112,9 @@ const Post = ({ post, postedBy }) => {
             </Box>
           )}
           <Flex gap={3} my={1}>
-            <Actions liked={liked} setLiked={setLiked} />
+            <Actions post={post} />
           </Flex>
-          <Flex gap={2} alignItems={"center"}>
-            <Text color={"gray.light"} fontSize={"sm"}>
-              {post.replies.length} replies
-            </Text>
-            <Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"}></Box>
-            <Text color={"gray.light"} fontSize={"sm"}>
-              {post.likes.length} likes
-            </Text>
-          </Flex>
+          
         </Flex>
       </Flex>
     </Link>

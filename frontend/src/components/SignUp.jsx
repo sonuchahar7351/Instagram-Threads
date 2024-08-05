@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch,} from "react-redux";
 import { setAuthScreen } from "../features/authSlice";
 import useShowToast from "../hooks/useShowToast";
 import { setUser } from "../features/userSlice";
