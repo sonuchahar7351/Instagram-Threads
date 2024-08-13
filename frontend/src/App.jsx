@@ -1,4 +1,4 @@
-import { Button, Container } from "@chakra-ui/react";
+import { Box, Button, Container } from "@chakra-ui/react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import UserPage from "./pages/UserPage";
 import PostPage from "./pages/PostPage";
@@ -6,13 +6,16 @@ import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 import { useSelector } from "react-redux";
-import LogoutButton from "./components/LogoutButton";
 import UpdateProfile from "./pages/UpdateProfile";
 import CreatePost from "./components/CreatePost";
+import Chatpage from "./pages/Chatpage";
 
 function App() {
   const User = useSelector((state) => state.user.preUser);
   return (
+    <Box position={"relative"}
+     w={"full"}
+    >
     <Container maxW="620px">
       <Header />
       <Routes>
@@ -28,13 +31,24 @@ function App() {
           path="/update"
           element={User ? <UpdateProfile /> : <Navigate to="/auth" />}
         />
-        <Route path="/:username" element={<UserPage />} />
+        <Route
+          path="/:username"
+          element={
+            User ? (
+              <>
+                <UserPage />
+                <CreatePost />
+              </>
+            ) : (
+              <UserPage />
+            )
+          }
+          />
         <Route path="/:username/post/:pid" element={<PostPage />} />
+        <Route path="/chat" element={User? <Chatpage />:<Navigate to="/auth" />} />
       </Routes>
-
-      {User && <LogoutButton />}
-      {User && <CreatePost />}
     </Container>
+          </Box>
   );
 }
 

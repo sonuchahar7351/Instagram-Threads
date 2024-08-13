@@ -22,16 +22,19 @@ import {
 import React, { useRef, useState } from "react";
 import UsePreviewimg from "../hooks/UsePreviewimg";
 import { BsFillImageFill } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useShowToast from "../hooks/useShowToast";
-
+import { addPost } from "../features/postSlice";
+import { useParams } from "react-router-dom";
 const CreatePost = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleImageChange, imageUrl, setImageUrl } = UsePreviewimg();
   const imageRef = useRef(null);
 
   const user = useSelector((state) => state.user.preUser);
-
+  const posts = useSelector((state) => state.post.posts);
+  const dispatch = useDispatch();
+  const { username } = useParams();
   const [loading, setLoading] = useState(false);
 
   const showToast = useShowToast();
@@ -49,35 +52,42 @@ const CreatePost = () => {
       setRemainingChar(masxChar - inputText.length);
     }
   };
-
   const handleCreatePost = async () => {
     setLoading(true);
-    try {
-      const res = await fetch("api/posts/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          postedBy: user._id,
-          text: postText,
-          img: imageUrl,
-        }),
-      });
-
-      const data = await res.json();
-      if (data.error) {
-        showToast("error", data.error, "error");
-        return;
+    if (username === user.username) {
+      try {
+        const res = await fetch("api/posts/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            postedBy: user._id,
+            text: postText,
+            img: imageUrl,
+          }),
+        });
+        const data = await res.json();
+        if (data.error) {
+          showToast("error", "error while creating post", "error");
+          return;
+        }
+        dispatch(addPost(data));
+        showToast("success", "post created successfully", "success");
+        onClose();
+        setPostText("");
+        setImageUrl("");
+      } catch (error) {
+        showToast("error", "something went wrong", "error");
+      } finally {
+        setLoading(false);
       }
-      showToast("success", "Post created succussfully", "success");
+    }
+    else{
+      showToast("error", "you can't create post for other user", "error");
       onClose();
       setPostText("");
       setImageUrl("");
-    } catch (error) {
-      showToast("error", error, "error");
-    } finally {
-      setLoading(false);
     }
   };
   return (
@@ -85,12 +95,15 @@ const CreatePost = () => {
       <Button
         position={"fixed"}
         bottom={10}
-        right={10}
-        leftIcon={<AddIcon />}
+        right={5}
         bg={useColorModeValue("gray.300", "gray.dark")}
         onClick={onOpen}
+        size={{
+          base: "sm",
+          sm: "md",
+        }}
       >
-        Post
+        <AddIcon />
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

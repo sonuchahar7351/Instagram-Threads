@@ -5,12 +5,11 @@ const generateTokenAndSetCoolie = (userId,res)=>{
       expiresIn:'15d',
   })
 
-  res.cookie("jwt",token,{
-      httpOnly:true, // more secure 
-      mexAge:15*24*60*60*1000,//15 days
-      sameSite:"strict", // 
-
-  })
+  res.cookie("jwt", token, {
+    // httpOnly: true, // More secure
+    maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
+    sameSite: "strict", // Adjust as needed
+});
 
   return token;
    

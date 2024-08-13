@@ -16,16 +16,16 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import useShowToast from "../hooks/useShowToast";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchedPosts } from "../features/postSlice";
 
-export const Actions = ({ post: post_ }) => {
+export const Actions = ({ post }) => {
   const user = useSelector((state) => state.user.preUser);
-  const [post, setPost] = useState(post_);
   const showToast = useShowToast();
-
-  const [liked, setLiked] = useState(post_?.likes?.includes(user?._id));
+  const posts = useSelector((state)=> state.post.posts)
+  const [liked, setLiked] = useState(post?.likes?.includes(user?._id));
   const [reply,setReply] = useState("");
- 
+  const dispatch = useDispatch();
 
   const [isLiking, setIsliking] = useState(false);
   const [isRepling,setIsrepling] = useState(false);
@@ -51,13 +51,22 @@ export const Actions = ({ post: post_ }) => {
       }
       if (!liked) {
         // add the id or the current user to post.likes array
-        setPost({ ...post, likes: [...post?.likes, user?._id] });
+       const updatedPosts = posts.map((p) =>{
+           if(p._id === post._id){
+             return {...p,likes:[...p?.likes, user?._id]}
+           }
+           return p;
+       })
+       dispatch(fetchedPosts(updatedPosts))
       } else {
         //remove the id of the current user from post.likes array
-        setPost({
-          ...post,
-          likes: post?.likes?.filter((id) => id !== user?._id),
-        });
+        const updatedPosts = posts.map((p) =>{
+          if(p._id === post._id){
+            return {...p,likes:p?.likes.filter((id)=>id !== user?._id)}
+          }
+          return p;
+        })
+        dispatch(fetchedPosts(updatedPosts))
       }
       setLiked(!liked);
     } catch (error) {
@@ -84,7 +93,13 @@ export const Actions = ({ post: post_ }) => {
   
       if (data.error) return showToast("error", data.error, "error");
   
-      setPost({ ...post, replies: [...post?.replies, data.reply] });
+      const updatedPosts = posts.map((p) => {
+        if (p._id === post._id) {
+          return { ...p, replies: [...p.replies, data] };
+        }
+        return p;   
+      })
+      dispatch(fetchedPosts(updatedPosts))
       showToast("success", "Reply posted successfully", "success");
       onClose();
       setReply("");

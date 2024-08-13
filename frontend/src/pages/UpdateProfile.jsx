@@ -45,7 +45,7 @@ import { setUser } from "../features/userSlice";
                 body: JSON.stringify({...inputs,profilePic:imageUrl})
           })
           const data = await res.json();
-          console.log(data.profilePic);
+        
           if(data.error){
             showToast("error",data.error,"error")
           }

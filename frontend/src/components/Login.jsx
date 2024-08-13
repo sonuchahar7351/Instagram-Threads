@@ -43,7 +43,7 @@ export default function Login() {
       });
       const data = await res.json();
       if (data.error) {
-        showToast("error", data.error, "error");
+        showToast("error", "error", "error");
       }
       // console.log(data);
       localStorage.setItem("user-threads", JSON.stringify(data));

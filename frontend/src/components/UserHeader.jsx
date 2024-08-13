@@ -9,6 +9,8 @@ import {
   MenuList,
   Portal,
   Text,
+  useColorMode,
+  useColorModeValue,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -128,7 +130,7 @@ const UserHeader = ({ user }) => {
           )}
         </Box>
       </Flex>
-      <Text>{user.bio}</Text>
+      <Text>{user.bio.length > 80 ? user.bio.substring(0, 80) + "..." : user.bio}</Text>
       {currentUser?._id === user?._id && (
         <Link to="/update">
             <Button size={"sm"}> Update Profile</Button>
@@ -157,8 +159,10 @@ const UserHeader = ({ user }) => {
                 <CgMoreO size={24} cursor={"pointer"} />
               </MenuButton>
               <Portal>
-                  <MenuList bg={"gray.dark"}>
-                        <MenuItem bg={"gray.dark"} onClick={copyURL}>Copy link</MenuItem>
+                  <MenuList bg={useColorModeValue("gray.200","black")}>
+                        <MenuItem bg={useColorModeValue("gray.200","black")} onClick={copyURL} fontWeight={"500"}
+                         color={useColorModeValue("black","white")}
+                        >Copy link</MenuItem>
                   </MenuList>
               </Portal>
             </Menu>

@@ -7,19 +7,19 @@ export default defineConfig({
   server:{
     port:3000,
     // get rid of the cors error
-    proxy:{
-      "/api": {
-        target: "https://instagram-threads.onrender.com",
-        changeOrigin:true,
-        secure:false,
-      }
-    }
     // proxy:{
-    //   "/api":{
-    //     target:"http://localhost:5000",
+    //   "/api": {
+    //     target: "https://instagram-threads.onrender.com",
     //     changeOrigin:true,
     //     secure:false,
     //   }
     // }
+    proxy:{
+      "/api":{
+        target:"http://localhost:5000",
+        changeOrigin:true,
+        secure:false,
+      }
+    }
   }
 })

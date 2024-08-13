@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 import {
   ChakraProvider,
   ColorModeScript,
@@ -11,6 +11,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import store from "./store/store.js";
+import { SocketContextProvider } from "../context/SocketContext.jsx";
 
 const styles = {
   global: (props) => ({
@@ -37,13 +38,15 @@ const theme = extendTheme({ config, styles, colors });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <ChakraProvider theme={theme}>
-          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+  <Provider store={store}>
+    <BrowserRouter>
+      <ChakraProvider theme={theme}>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <SocketContextProvider>
           <App />
-        </ChakraProvider>
-      </BrowserRouter>
-    </Provider>
+        </SocketContextProvider>
+      </ChakraProvider>
+    </BrowserRouter>
+  </Provider>
   // </React.StrictMode>
 );

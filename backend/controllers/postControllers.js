@@ -32,7 +32,7 @@ export const createPost = async(req,res)=>{
             
            const newPost = new Post({postedBy,text,img});
            await newPost.save();
-           res.status(201).json({message:"Post Created succussfully",newPost});
+           res.status(201).json(newPost);
 
       } catch (error) {
             console.log(error);
@@ -63,6 +63,10 @@ export const deletePost= async (req,res)=>{
             }
             if(post.postedBy.toString() !== req.user._id.toString()){
                   return res.status(401).json({error:"unauthrized to delete post"})
+            }
+            if(post.img){
+                  const imgId = post.img.split('/').pop().split(".")[0];
+                  await cloudinary.uploader.destroy(imgId);
             }
             await Post.findByIdAndDelete(req.params.id);
             res.status(200).json({message:"Post deleted succussfully"});
@@ -112,7 +116,7 @@ export const replyToPost = async(req,res)=>{
             const userId= req.user._id;
             const userProfilePic = req.user.profilePic;
             const username = req.user.username;
-            console.log(postId);
+            // console.log(postId);
             if(!text){
                   return res.status(400).json({error:"Text field is required"})
             }
@@ -123,7 +127,7 @@ export const replyToPost = async(req,res)=>{
             const reply = {userId,text,userProfilePic,username};
             post.replies.push(reply);
             await post.save();
-            res.status(200).json(post)
+            res.status(200).json(reply);
          
       } catch (error) {
             console.log(error,"error while reply to post");
