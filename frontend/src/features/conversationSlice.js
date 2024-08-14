@@ -20,9 +20,16 @@ const conversationSlice = createSlice({
                         };
                   }
             },
+            updateSeenMessage:(state,action)=>{
+                   const {conversationId}=action.payload;
+                   const conversation = state.conversation.find(conv => conv._id === conversationId);
+                   if(conversation){
+                        conversation.lastMessage.seen=true
+                   }
+            }
       },
 });
-export const { fetchedConversation, updateLastMessage } = conversationSlice.actions;
+export const { fetchedConversation, updateLastMessage, updateSeenMessage } = conversationSlice.actions;
 export default conversationSlice.reducer
 
 

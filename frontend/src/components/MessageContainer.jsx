@@ -66,13 +66,12 @@ const MessageContainer = () => {
           )
         );
       }
-      console.log(messages[messages.length-1].seen);
     };
    
 
      socket.on("messagesSeen",handleMessagesSeen)
 
-  },[socket, currentUser._id, selectedConversation, messages, setMessages])
+  },[socket, selectedConversation, messages, currentUser._id])
 
   useEffect(() => {
     const getMessages = async () => {
@@ -105,16 +104,10 @@ const MessageContainer = () => {
 
 
   return (
-    <Flex
-      flex={70}
-      bg={useColorModeValue("gray.200", "gray.dark")}
-      borderRadius={"md"}
-      flexDirection={"column"}
-      p={2}
-    >
+    <Flex flex={70} bg={useColorModeValue("gray.200", "gray.dark")} borderRadius={"md"} flexDirection={"column"} p={2}>
       {/* Message header */}
       <Flex
-        w={"ful"}
+        w={"full"}
         h={"12"}
         alignItems={"center"}
         gap={2}
@@ -137,11 +130,11 @@ const MessageContainer = () => {
         gap={4}
         my={4}
         p={2}
-        height={"390px"}
+        height={{md:"300px", lg:"300px", base:"50vh"}}
         overflowY={"auto"}
       >
         {loading &&
-          [0, 1, 2, 3, 4, 5, 6, 7, 8].map((_, i) => (
+          [0, 1, 2, 3, 4, 5, 6].map((_, i) => (
             <Flex
               key={i}
               gap={3}

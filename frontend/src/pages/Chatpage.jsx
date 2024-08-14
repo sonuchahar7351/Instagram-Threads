@@ -15,7 +15,7 @@ import useShowToast from "../hooks/useShowToast";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GiConversation } from "react-icons/gi";
-import { fetchedConversation } from "../features/conversationSlice";
+import { fetchedConversation, updateSeenMessage } from "../features/conversationSlice";
 import { setSelectedConversation } from "../features/selectedConversationSlice";
 import { useSocket } from "../../context/SocketContext";
 
@@ -31,6 +31,17 @@ const Chatpage = () => {
   const [search, setSearch] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
   const { socket, onlineUsers } = useSocket();
+
+  useEffect(() => {
+    const handleMessagesSeen = ({ conversationId }) => {
+        dispatch(updateSeenMessage(conversationId));
+    };
+
+    socket?.on("messagesSeen",handleMessagesSeen);
+  
+   
+  }, [socket, selectedConversation])
+  
 
   useEffect(() => {
     const getConversations = async () => {
@@ -113,48 +124,16 @@ const Chatpage = () => {
     }
   };
 
-  return (
-    <Box
-      position={"absolute"}
-      w={{
-        lg: "750px",
-        md: "100%",
-        base: "100%",
-      }}
-      left={"50%"}
-      transform={"translateX(-50%)"}
-      p={4}
-    >
-      <Flex
-        gap={4}
-        flexDirection={{
-          base: "column",
-          md: "row",
-          lg: "row",
-        }}
-        maxW={{
-          base: "600px",
-          md: "full",
-        }}
-        mx={"auto"}
-      >
-        <Flex
-          flex={30}
-          gap={2}
-          flexDirection={"column"}
-          maxW={{
-            sm: "250px",
-            md: "full",
-          }}
-          mx={"auto"}
-        >
-          <Text
-            fontWeight={700}
-            color={useColorModeValue("gray.600", "gray.400")}
-          >
-            Your conversation
-          </Text>
-          <form onSubmit={handleConversationSearch}>
+return (
+  <Box  position={"absolute"} w={{lg: "750px",md: "100%", base: "100%",}} left={"50%"} transform={"translateX(-50%)"} p={4}>
+
+    <Flex gap={4} flexDirection={{base: "column", md: "row", lg: "row", }} maxW={{ base: "600px", md: "full", }} mx={"auto"}>
+
+      <Flex w={{ base: "full", md: "30%", }} gap={2} flexDirection={"column"} maxW={{ base: "full", md: "full",}} mx={"auto"}>
+
+        <Text fontWeight={700} color={useColorModeValue("gray.600", "gray.400")}> Your conversation </Text>
+           
+          <form onSubmit={handleConversationSearch} style={{ width: "100%" }} >
             <Flex alignItems={"center"} gap={2}>
               <Input
                 placeholder="Search for a user"
@@ -162,7 +141,7 @@ const Chatpage = () => {
                 value={search}
               />
               <Button
-                size={"sm"}
+                size={{base:"sm", md:"md", lg:"md"}}
                 onClick={handleConversationSearch}
                 isLoading={searchLoading}
               >
