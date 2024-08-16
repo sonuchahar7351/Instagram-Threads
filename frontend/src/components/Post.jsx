@@ -10,7 +10,6 @@ import { fetchedPosts } from "../features/postSlice";
 
 
 const Post = ({ post, postedBy }) => {
-  // console.log(postedBy);
   const [user, setUser] = useState(null);
   const showToast = useShowToast();
   const navigate = useNavigate();

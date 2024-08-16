@@ -91,7 +91,10 @@ export const Actions = ({ post }) => {
   
       const data = await res.json();
   
-      if (data.error) return showToast("error", data.error, "error");
+      if (data.error){
+        showToast("error", data.error, "error");
+        return ;
+      } 
   
       const updatedPosts = posts.map((p) => {
         if (p._id === post._id) {

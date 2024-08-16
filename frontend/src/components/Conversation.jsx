@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {BsCheck2All, BsFillImageFill} from 'react-icons/bs'
+import {BsCheck2All} from 'react-icons/bs'
 import { setSelectedConversation } from "../features/selectedConversationSlice";
 
 const Conversation = ({conversation, isOnline}) => {

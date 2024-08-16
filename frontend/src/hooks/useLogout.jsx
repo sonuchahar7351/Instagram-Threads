@@ -1,4 +1,3 @@
-import React from 'react'
 import { useDispatch } from 'react-redux';
 import useShowToast from './useShowToast';
 import { setUser } from '../features/userSlice';

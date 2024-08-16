@@ -19,7 +19,6 @@ import { useDispatch } from "react-redux";
 import { setAuthScreen } from "../features/authSlice";
 import useShowToast from "../hooks/useShowToast";
 import { setUser } from "../features/userSlice";
-import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -44,6 +43,7 @@ export default function Login() {
       const data = await res.json();
       if (data.error) {
         showToast("error", "error", "error");
+        return;
       }
       // console.log(data);
       localStorage.setItem("user-threads", JSON.stringify(data));

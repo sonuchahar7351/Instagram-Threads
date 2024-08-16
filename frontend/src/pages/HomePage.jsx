@@ -12,7 +12,6 @@ const HomePage = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
-  // fetch user
 
   useEffect(() => {
     const getFeedPost = async () => {
@@ -26,7 +25,6 @@ const HomePage = () => {
           return;
         }
         dispatch(fetchedPosts(data));
-        // console.log(data[0].postedBy);
       } catch (error) {
         showToast("error", "error while fetching feed", "error");
       } finally {

@@ -1,17 +1,19 @@
 import { Button } from "@chakra-ui/react";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { setUser } from "../features/userSlice";
 import useShowToast from "../hooks/useShowToast";
 import {FiLogOut} from 'react-icons/fi'
 import { useNavigate } from "react-router-dom";
 
 const LogoutButton = () => {
-  const user = useSelector((state) => state.user.preUser);
   const dispatch = useDispatch();
   const showToast = useShowToast();
   const navigate = useNavigate();
+  const [loading,setLoading] = useState(false);
   const handleLogout = async () => {
+    setLoading(true);
+    if(loading) return;
     try {
       //fetch
       const res = await fetch("/api/users/logout", {
@@ -31,7 +33,9 @@ const LogoutButton = () => {
       dispatch(setUser(null));
       navigate('/auth');
     } catch (error) {
-      console.log(error);
+      showToast("error", "something went wrong when logout", "error");
+    }finally{
+       setLoading(false);
     }
   };
   return (
@@ -42,7 +46,7 @@ const LogoutButton = () => {
       size={"sm"}
       onClick={handleLogout}
     >
-      <FiLogOut size={20}/>
+      {loading ? <Spinner size={"sm"}/> : <FiLogOut size={20}/> }
     </Button>
   );
 };

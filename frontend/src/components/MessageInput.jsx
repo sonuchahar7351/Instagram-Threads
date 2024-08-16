@@ -22,7 +22,6 @@ import { BsFillImageFill } from "react-icons/bs";
 import UsePreviewimg from "../hooks/UsePreviewimg";
 
 const MessageInput = ({ setMessages }) => {
-  const conversation = useSelector((state) => state.conversation.conversation);
   const selectedConversation = useSelector(
     (state) => state.selectedConversation
   );
@@ -55,6 +54,7 @@ const MessageInput = ({ setMessages }) => {
       const data = await res.json();
       if (data.error) {
         showToast("error", data.error, "error");
+        return;
       }
       setMessages((messages) => [...messages, data]);
       dispatch(

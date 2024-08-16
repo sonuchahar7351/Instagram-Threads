@@ -21,7 +21,6 @@ import { useDispatch,} from "react-redux";
 import { setAuthScreen } from "../features/authSlice";
 import useShowToast from "../hooks/useShowToast";
 import { setUser } from "../features/userSlice";
-import { useNavigate } from "react-router-dom";
 
 
 export default function SignUp() {

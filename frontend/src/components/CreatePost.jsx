@@ -15,7 +15,6 @@ import {
   ModalOverlay,
   Text,
   Textarea,
-  useColorMode,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";

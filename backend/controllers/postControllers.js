@@ -2,7 +2,6 @@ import User from '../models/userModel.js';
 import Post from '../models/postModel.js';
 import {v2 as cloudinary} from 'cloudinary'
 
-//create post 
 export const createPost = async(req,res)=>{
       try {
             
@@ -40,7 +39,6 @@ export const createPost = async(req,res)=>{
       }
 }
 
-// get post 
 export const getPost = async (req,res)=>{
       try {
             const post = await Post.findById(req.params.id);
@@ -78,7 +76,6 @@ export const deletePost= async (req,res)=>{
 
 }
 
-//like and unlike post 
 export const likeUnlikePost = async(req,res)=>{
       try {
             const {id:postId}=req.params;
@@ -107,16 +104,13 @@ export const likeUnlikePost = async(req,res)=>{
       }
 }
 
-//Reply to post 
 export const replyToPost = async(req,res)=>{
       try {
-           // console.log(req.params.id);
             const {text}= req.body;
             const postId=req.params.id;
             const userId= req.user._id;
             const userProfilePic = req.user.profilePic;
             const username = req.user.username;
-            // console.log(postId);
             if(!text){
                   return res.status(400).json({error:"Text field is required"})
             }
@@ -134,7 +128,6 @@ export const replyToPost = async(req,res)=>{
       }
 }
 
-//feed to post 
 export const getFeedPosts = async(req,res)=>{
       try {
             const userId=req.user._id;
@@ -151,10 +144,8 @@ export const getFeedPosts = async(req,res)=>{
 
             res.status(200).json(feedPosts)
 
-            // res.json({message:"feed request completed"})
 
       } catch (error) {
-            // console.log(error)
             res.status(500).json({error:"error while giving feed post"})
       }
 }

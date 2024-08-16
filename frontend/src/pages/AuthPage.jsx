@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import SignUp from "../components/SignUp";
 import Login from "../components/Login";
 import { useSelector } from "react-redux";

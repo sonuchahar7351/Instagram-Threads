@@ -40,7 +40,8 @@ const conversationSlice = createSlice({
 export const { fetchedConversation, updateLastMessage, updateSeenMessage } = conversationSlice.actions;
 export default conversationSlice.reducer
 
-
+ // if you want to use local state for manage state or storing data
+ 
 // return state.map(conversation => {
 //       if (conversation._id === conversationId) {
 //         return {

@@ -19,7 +19,6 @@ import React, { useState } from "react";
 import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
 import { useSelector } from "react-redux";
-import useShowToast from "../hooks/useShowToast";
 import useFollowUnfollow from "../hooks/useFollowUnfollow";
 
 const UserHeader = ({ user }) => {

@@ -16,7 +16,6 @@ import useShowToast from "../hooks/useShowToast";
 import { useSocket } from "../context/SocketContext";
 import { updateLastMessage } from "../features/conversationSlice";
 import messageSound from "../assets/sounds/message.mp3";
-// import{scrollIntoView} from '@chakra-ui/react'
 
 const MessageContainer = () => {
   const selectedConversation = useSelector(

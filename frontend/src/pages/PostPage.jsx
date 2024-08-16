@@ -20,7 +20,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatDistanceToNow } from "date-fns";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { fetchedPosts } from "../features/postSlice";
-import { current } from "@reduxjs/toolkit";
 
 const PostPage = () => {
   const { user, loading } = useGetUserProfile();
@@ -41,7 +40,6 @@ const PostPage = () => {
           showToast("error", data.error, "error");
           return;
         }
-        //  console.log(data);
         dispatch(fetchedPosts([data]));
       } catch (error) {
         showToast("error", "error", "error");
@@ -69,7 +67,6 @@ const PostPage = () => {
       showToast("error", "error when post deleting", "error");
     }
   };
-  // console.log(post);
 
   if (!user && loading) {
     return (
