@@ -39,7 +39,6 @@ const MessageInput = ({ setMessages }) => {
     e.preventDefault();
     if (messageText.trim().length === 0 && !imageUrl) return;
     if(sending) return;
-
      setSending(true)
     try {
       const res = await fetch(`/api/message/send`, {
@@ -88,7 +87,7 @@ const MessageInput = ({ setMessages }) => {
             onChange={(e) => setMessageText(e.target.value)}
           />
           <InputRightElement cursor={"pointer"} onClick={handleSendMessage}>
-            <IoSendSharp />
+            {sending ? (<Spinner size={"md"}/>):(<IoSendSharp />)}
           </InputRightElement>
         </InputGroup>
       </form>

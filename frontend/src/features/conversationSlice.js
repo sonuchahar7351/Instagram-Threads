@@ -21,11 +21,19 @@ const conversationSlice = createSlice({
                   }
             },
             updateSeenMessage:(state,action)=>{
-                   const {conversationId}=action.payload;
-                   const conversation = state.conversation.find(conv => conv._id === conversationId);
-                   if(conversation){
-                        conversation.lastMessage.seen=true
-                   }
+                  const conversationId = action.payload; // Expecting the conversation ID to be passed in the payload
+                  state.conversation = state.conversation.map((conversation) => {
+                      if (conversation._id === conversationId) {
+                          return {
+                              ...conversation,
+                              lastMessage: {
+                                  ...conversation.lastMessage,
+                                  seen: true,
+                              },
+                          };
+                      }
+                      return conversation;
+                  });
             }
       },
 });
@@ -45,3 +53,20 @@ export default conversationSlice.reducer
 //       }
 //       return conversation;
 //     });
+
+
+// setSelectedConversation((prev)=>{
+//       const updatedConversation = prev.map((conversation)=>{
+//             if(conversation._id===conversation){
+//             return{
+//                   ...conversation,
+//                   lastMessage:{
+//                         ...conversation.lastMessage,
+//                         seen:true,
+//                   }
+//             }
+//       }
+//       return conversation;
+//       })
+//       return updatedConversation;
+// })

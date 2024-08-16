@@ -20,54 +20,14 @@ import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
 import { useSelector } from "react-redux";
 import useShowToast from "../hooks/useShowToast";
+import useFollowUnfollow from "../hooks/useFollowUnfollow";
 
 const UserHeader = ({ user }) => {
       const toast = useToast()
-      const currentUser = useSelector((state)=>state.user.preUser);
-      const [following,setFollowing] = useState(user.followers.includes(currentUser?._id));
+      const currentUser = useSelector((state)=>state.user.preUser);      
       
-      const showToast = useShowToast();
-      const [updating,setUpdating] = useState(false);
-
-      const handleFollowUnFollow = async()=>{
-        if(!currentUser){
-          showToast("error","please login","error");
-          return;
-        }
-        if(updating) return;
-
-        setUpdating(true);
-        try {
-             const res = await fetch(`/api/users/follow/${user._id}`,{
-              method:"POST",
-               headers : {
-                "Content-Type" : "application/json"
-               }
-
-             })
-             const data = await res.json();
-             if(data.error){
-              showToast("error",data.error,"error");
-              return
-             }
-            //  console.log(data);
-            if(following){
-              showToast("success",`UnFollow ${user.name}`,"success");
-              user.followers.pop();
-            }else{
-              showToast("success",`Follow ${user.name}`,"success");
-              user.followers.push(currentUser?._id); // simulate adding followers
-            }
-            
-            setFollowing(!following)
-          
-        } catch (error) {
-           showToast("error",error,"error")
-        }finally{
-          setUpdating(false)
-        }
-        
-      }
+     const{handleFollowUnFollow,updating,following} = useFollowUnfollow(user);
+      
 
       const copyURL =()=>{
             const currentURL=window.location.href;

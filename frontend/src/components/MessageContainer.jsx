@@ -13,8 +13,9 @@ import Message from "./Message";
 import MessageInput from "./MessageInput";
 import { useDispatch, useSelector } from "react-redux";
 import useShowToast from "../hooks/useShowToast";
-import { useSocket } from "../../context/SocketContext";
+import { useSocket } from "../context/SocketContext";
 import { updateLastMessage } from "../features/conversationSlice";
+import messageSound from "../assets/sounds/message.mp3";
 // import{scrollIntoView} from '@chakra-ui/react'
 
 const MessageContainer = () => {
@@ -35,6 +36,10 @@ const MessageContainer = () => {
       if(selectedConversation._id === messsage.conversationId){
         setMessages((prevMessages) => [...prevMessages, messsage]);
       }
+      if (!document.hasFocus()) {
+				const sound = new Audio(messageSound);
+				sound.play();
+			}
 
       dispatch(
         updateLastMessage({
@@ -49,7 +54,7 @@ const MessageContainer = () => {
 
 
   useEffect(()=>{
-     const lastMessageIsFromOtherUser = messages?.length && messages[messages?.length-1].sender !== currentUser?._id;
+     const lastMessageIsFromOtherUser = messages.length && messages[messages.length-1].sender !== currentUser._id;
 
      if(lastMessageIsFromOtherUser){
         socket.emit("markMessagesAsSeen",{
@@ -67,8 +72,6 @@ const MessageContainer = () => {
         );
       }
     };
-   
-
      socket.on("messagesSeen",handleMessagesSeen)
 
   },[socket, selectedConversation, messages, currentUser._id])

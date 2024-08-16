@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path'
 import dotenv from 'dotenv';
 import connectDB from './db/connectDB.js';
 import cookieParser from 'cookie-parser';
@@ -14,6 +15,7 @@ dotenv.config();
 connectDB();
 
 const PORT=process.env.PORT || 5000;
+const _dirname = path.resolve();
 
 cloudinary.config({
       cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -32,5 +34,14 @@ app.use('/api/users',userRoutes);
 app.use('/api/posts',postRoutes);
 app.use('/api/message',messageRoutes);
 
+
+// Serve static assests if in production
+
+if(process.env.NODE_ENV === "production"){
+    app.use(express.static(path.join(_dirname,'/frontend/dist')))
+    app.get("*",(req,res)=>{
+        res.sendFile(path.resolve(_dirname,'frontend','dist','index.html'))
+    })
+}
 
 server.listen(PORT,()=>console.log(`server is started at http://localhost:${PORT}`))
