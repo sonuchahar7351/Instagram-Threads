@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-      preUser: JSON.parse(localStorage.getItem('user-threads'))
-}
+      preUser: JSON.parse(localStorage.getItem('user-threads')) || null
+};
+
 const userSlice = createSlice({
       name: 'user',
       initialState,

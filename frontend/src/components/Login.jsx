@@ -39,16 +39,14 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(inputs),
-      });
+      }); 
       const data = await res.json();
       if (data.error) {
-        showToast("error", "error", "error");
+        showToast("error", data.error, "error");
         return;
       }
-      // console.log(data);
       localStorage.setItem("user-threads", JSON.stringify(data));
       dispatch(setUser(data));
-      // window.location.reload();
     } catch (error) {
       showToast("error",error,"error")
     }finally{
