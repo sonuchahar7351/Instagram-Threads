@@ -8,20 +8,24 @@ import postRoutes from './routes/postRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
 import {v2 as cloudinary} from 'cloudinary';
 import {app,server} from "./socket/socket.js";
+import job from './cron/cron.js';
 // import {cors} from cors;
 
 dotenv.config();
-
 connectDB();
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+job.start();
 
 const PORT=process.env.PORT || 5000;
 const _dirname = path.resolve();
 
-cloudinary.config({
-      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-      api_key: process.env.CLOUDINARY_API_KEY,
-      api_secret: process.env.CLOUDINARY_API_SECRET
-});
+
 
 
 app.use(express.json({limit:"50mb"})); //To parse JSON data in the req.body 

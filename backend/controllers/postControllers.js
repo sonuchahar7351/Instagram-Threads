@@ -7,8 +7,11 @@ export const createPost = async(req,res)=>{
             
            const {postedBy,text}=req.body;
            let {img} = req.body;
-           if(!postedBy || !text){
+           if(!postedBy){
             return res.status(400).json({error:"postedBy and text field are required"})
+           }
+           if(!text){
+            return res.status(400).json({error:"text field is required"});
            }
            const user= await User.findById(postedBy);
            if(!user){
