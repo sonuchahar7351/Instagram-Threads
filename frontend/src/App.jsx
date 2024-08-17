@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import UpdateProfile from "./pages/UpdateProfile";
 import CreatePost from "./components/CreatePost";
 import Chatpage from "./pages/Chatpage";
+import AllUsers from "./components/AllUsers";
 
 function App() {
   const User = useSelector((state) => state.user.preUser);
@@ -47,6 +48,7 @@ function App() {
           />
         <Route path="/:username/post/:pid" element={<PostPage />} />
         <Route path="/chat" element={User? <Chatpage />:<Navigate to="/auth" />} />
+        <Route path="/all-users" element={User? <AllUsers />:<Navigate to="/auth" />} />
       </Routes>
     </Container>
           </Box>

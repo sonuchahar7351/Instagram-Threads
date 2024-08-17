@@ -4,7 +4,6 @@ import {v2 as cloudinary} from 'cloudinary'
 
 export const createPost = async(req,res)=>{
       try {
-            console.log(req.body,"body");
            const {postedBy,text}=req.body;
            let {img} = req.body;
            if(!postedBy){
@@ -17,7 +16,7 @@ export const createPost = async(req,res)=>{
            if(!user){
             return res.status(400).json({error:"user not found"})
            }
-
+      //     console.log((user._id).toString() !== ( req.user._id).toString());
            if(user._id.toString() !== req.user._id.toString()){
             return res.status(400).json({error:"unauthorized to create post"})
            }
@@ -31,7 +30,6 @@ export const createPost = async(req,res)=>{
               const uploadedResponse = await cloudinary.uploader.upload(img)
               img = uploadedResponse.secure_url;
            }
-           console.log(img);
             
            const newPost = new Post({postedBy,text,img});
            await newPost.save();

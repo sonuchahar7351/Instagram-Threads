@@ -20,7 +20,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-job.start();
+ job.start();
 
 const PORT=process.env.PORT || 5000;
 const _dirname = path.resolve();

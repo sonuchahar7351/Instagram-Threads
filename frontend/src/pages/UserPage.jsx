@@ -15,17 +15,18 @@ const UserPage = () => {
   const [fetching,setFetching] = useState(true);
   const dispatch = useDispatch();
   const posts = useSelector((state)=>state.post.posts);
-
   useEffect(() => {    
   
     const getPosts = async () =>{
+        // dispatch(fetchedPosts([]));
        try {
-        const res = await fetch(`/api/posts/user/${username}`)
-        const data = await res.json();
+        // console.log("hello");
+         const res = await fetch(`/api/posts/user/${username}`)
+         const data = await res.json();
         if(data.error){
           showToast("error","error in somecases","error");
           return;
-        }
+       }
         dispatch(fetchedPosts(data));
         } 
         catch (error) {

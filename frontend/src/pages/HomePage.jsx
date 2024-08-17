@@ -5,6 +5,7 @@ import Post from "../components/Post";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchedPosts } from "../features/postSlice";
 import SuggestedUsers from "../components/SuggestedUsers";
+import AllUsers from "../components/AllUsers";
 
 const HomePage = () => {
   const showToast = useShowToast();
@@ -12,16 +13,16 @@ const HomePage = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     const getFeedPost = async () => {
-      setLoading(true);
       dispatch(fetchedPosts([]));
+      setLoading(true);
+      
       try {
         const res = await fetch("/api/posts/feed");
         const data = await res.json();
         if (data.error) {
-          showToast("error", data.error, "error");
+          showToast("error",data.error, "error");
           return;
         }
         dispatch(fetchedPosts(data));
@@ -32,21 +33,22 @@ const HomePage = () => {
       }
     };
     getFeedPost();
-  }, [dispatch, showToast]);
+  }, []);
 
   return (
     <Flex gap="10" alignItems={"flex-start"}>
       <Box flex={70}>
         {!loading && posts?.length === 0 && (
-          <h1>Follow some users to see the feed</h1>
+          <h1 alignItems={"center"}>Follow some users to see the feed</h1>
+
         )}
         {loading && (
-          <Flex justify={"center"}>
+          <Flex justify={"center"} mt={"30%"}>
             <Spinner size={"xl"} />
           </Flex>
         )}
-        {posts?.map((post) => (
-          <Post key={post?._id} post={post} postedBy={post?.postedBy?._id} />
+        {posts.length > 0 && posts.map((post) => (
+          <Post key={post?._id} post={post} postedBy={post.postedBy ? post.postedBy._id : null} />
         ))}
       </Box>
       <Box flex={30}

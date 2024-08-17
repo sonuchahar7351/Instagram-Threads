@@ -25,7 +25,6 @@ import { setUser } from "../features/userSlice";
         password: "",
         bio: user.bio,
       });
-      
       const fileRef = useRef(null);
       const showToast = useShowToast();
       const [updating,setUpdating] = useState(false)
@@ -48,9 +47,8 @@ import { setUser } from "../features/userSlice";
         
           if(data.error){
             showToast("error",data.error,"error")
+            return;
           }
-
-       
          dispatch(setUser(data));
          localStorage.setItem("user-threads",JSON.stringify(data));
             showToast("success","profile update succussfully","success");

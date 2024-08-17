@@ -1,4 +1,4 @@
-import { Button, Flex, Image, Link, useColorMode } from "@chakra-ui/react";
+import { Button, Flex, Image, Link, Text, useColorMode } from "@chakra-ui/react";
 import React from "react";
 import { useSelector } from "react-redux";
 import { AiFillHome } from "react-icons/ai";
@@ -7,6 +7,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import useLogout from "../hooks/useLogout";
 import { BsFillChatQuoteFill } from "react-icons/bs";
+import {FaUserFriends} from 'react-icons/fa'
 
 const Header = () => {
   const logout = useLogout();
@@ -30,6 +31,9 @@ const Header = () => {
 
       {user && (
         <Flex alignItems={"center"} gap={4}>
+          <Link as={RouterLink} to={`/all-users`}>
+          <FaUserFriends size={24} color={useColorMode("white","black")} />
+          </Link>
           <Link as={RouterLink} to={`/${user.username}`}>
             <RxAvatar size={24} />
           </Link>

@@ -105,7 +105,7 @@ export const followUnfollowUser = async (req, res) => {
 export const updateUserProfile = async (req, res) => {
       const { name, email, username, password, bio } = req.body;
       let { profilePic } = req.body;
-      const {userId} = req.user._id;
+      const userId = req.user._id;
       try {
             let user = await User.findById(userId);
             if (!user) return res.status(400).json({ error: "user not found" });
@@ -194,5 +194,17 @@ export const getSuggestedUsers = async (req, res) => {
 
       } catch (error) {
             res.status(500).json({ error: error.message })
+      }
+}
+
+export const getAllusers = async (req,res)=>{
+      const user = req.user;
+      try { 
+            const users = await User.find().select("-password").select("-updatedAt");
+            const allUsers = users.filter(u => u._id.toString() !== user._id.toString());
+            res.status(200).json(allUsers);
+            
+      } catch (error) {
+            res.status(500).json({error:"error while fetching users"});
       }
 }
