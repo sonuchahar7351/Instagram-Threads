@@ -1,11 +1,10 @@
-import { Box, Flex, Spinner, useStatStyles } from "@chakra-ui/react";
+import { Box, Flex, Spinner, Text, useStatStyles } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
 import Post from "../components/Post";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchedPosts } from "../features/postSlice";
 import SuggestedUsers from "../components/SuggestedUsers";
-import AllUsers from "../components/AllUsers";
 
 const HomePage = () => {
   const showToast = useShowToast();
@@ -34,7 +33,7 @@ const HomePage = () => {
     };
     getFeedPost();
   }, []);
-  
+
   useEffect(()=>{
     return ()=>{
       dispatch(fetchedPosts([]))
@@ -45,7 +44,7 @@ const HomePage = () => {
     <Flex gap="10" alignItems={"flex-start"}>
       <Box flex={70}>
         {!loading && posts?.length === 0 && (
-          <h1 alignItems={"center"}>Follow some users to see the feed</h1>
+          <Text alignItems={"center"} size={"md"}>Follow some users to see the feed</Text>
 
         )}
         {loading && (

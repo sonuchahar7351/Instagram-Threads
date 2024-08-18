@@ -30,7 +30,7 @@ export const SocketContextProvider = ({children}) => {
 
            return ()=> socket && socket.close();
 
-      },[user?._id])
+      },[])
 
 
       return (

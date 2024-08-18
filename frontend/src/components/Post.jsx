@@ -64,6 +64,7 @@ const Post = ({ post, postedBy }) => {
             size="md"
             name={user?.name}
             src={user?.profilePic}
+            cursor={"pointer"}
             onClick={(e) => {
               e.preventDefault();
               navigate(`/${user.username}`);

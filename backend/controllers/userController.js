@@ -148,7 +148,8 @@ export const updateUserProfile = async (req, res) => {
             user.password = null;
             res.status(200).json(user)
       } catch (error) {
-            res.status(500).json({ error: "error in update profile" })
+            res.status(500).json({ error: "error in update profile" },error)
+            console.log(error.message);
       }
 }
 
