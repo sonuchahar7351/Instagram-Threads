@@ -139,7 +139,7 @@ const Post = ({ post, postedBy }) => {
               </Text>
               {currentUser?._id === user?._id && (
                 <>
-                  {deleting ? <Spinner size={"sm"} color={"red.500"}/> : <DeleteIcon size={20} onClick={handleDeletePost} />}
+                  {deleting ? <Spinner size={"sm"} color={"red.500"}/> : <DeleteIcon size={20} onClick={handleDeletePost} cursor={"pointer"} />}
                 </>
               )}
             </Flex>
