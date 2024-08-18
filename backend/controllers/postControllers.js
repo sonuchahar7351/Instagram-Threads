@@ -30,6 +30,8 @@ export const createPost = async(req,res)=>{
            if(img){
               const uploadedResponse = await cloudinary.uploader.upload(img)
               img = uploadedResponse.secure_url;
+           }else{
+             res.status(400).json({error:"image is required",img});
            }
             
            const newPost = new Post({postedBy,text,img});
@@ -72,8 +74,7 @@ export const deletePost= async (req,res)=>{
             res.status(200).json({message:"Post deleted succussfully"});
 
       } catch (error) {
-            console.log(error);
-            res.status(400).json({error:"error while deleting post"})
+            res.status(400).json({error:"error while deleting post",error})
       }
 
 }

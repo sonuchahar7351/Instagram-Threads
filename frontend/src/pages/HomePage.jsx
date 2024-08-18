@@ -34,6 +34,12 @@ const HomePage = () => {
     };
     getFeedPost();
   }, []);
+  
+  useEffect(()=>{
+    return ()=>{
+      dispatch(fetchedPosts([]))
+    }
+  },[])
 
   return (
     <Flex gap="10" alignItems={"flex-start"}>

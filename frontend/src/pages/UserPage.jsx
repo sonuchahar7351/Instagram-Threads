@@ -36,7 +36,14 @@ const UserPage = () => {
        }
      }
     getPosts();
-  }, [username,dispatch]);
+  }, [username,dispatch,showToast]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(fetchedPosts([])); // Clear user data on unmount
+    };
+  }, []);
+
   if(!user && loading){
     return (
      <Flex justifyContent={"center"}>

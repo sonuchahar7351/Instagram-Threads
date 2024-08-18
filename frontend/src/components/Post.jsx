@@ -34,12 +34,8 @@ const Post = ({ post, postedBy }) => {
       }
     };
     getUser();
-  }, [postedBy]);
-  useEffect(() => {
-    return () => {
-      dispatch(fetchedPosts([])); // Clear user data on unmount
-    };
-  }, []);
+  }, [postedBy, showToast]);
+ 
   // console.log(user);
   const handleDeletePost = async (e) => {
     try {
