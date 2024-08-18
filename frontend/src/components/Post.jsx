@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Avatar, Box, Flex, Image, Spinner, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Actions } from "./Actions";
@@ -11,6 +11,7 @@ import { fetchedPosts } from "../features/postSlice";
 const Post = ({ post, postedBy }) => {
   if (!postedBy) return;
   const [user, setUser] = useState(null);
+  const [deleting,setDeleting] = useState(false);
   const showToast = useShowToast();
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.user.preUser);
@@ -38,6 +39,8 @@ const Post = ({ post, postedBy }) => {
  
   // console.log(user);
   const handleDeletePost = async (e) => {
+    if(deleting) return ;
+    setDeleting(true);
     try {
       e.preventDefault();
       if (!window.confirm("Are you sure you want to delete this post?")) return;
@@ -54,6 +57,8 @@ const Post = ({ post, postedBy }) => {
       showToast("success", "post deleted succussfully", "success");
     } catch (error) {
       showToast("error", "error when post deleting", "error");
+    }finally{
+      setDeleting(false);
     }
   };
 
@@ -133,7 +138,9 @@ const Post = ({ post, postedBy }) => {
                 {formatDistanceToNow(new Date(post.createdAt))} ago
               </Text>
               {currentUser?._id === user?._id && (
-                <DeleteIcon size={20} onClick={handleDeletePost} />
+                <>
+                  {deleting ? <Spinner size={"sm"} color={"red.500"}/> : <DeleteIcon size={20} onClick={handleDeletePost} />}
+                </>
               )}
             </Flex>
           </Flex>
