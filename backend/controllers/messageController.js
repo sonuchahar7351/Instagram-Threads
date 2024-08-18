@@ -1,15 +1,16 @@
 import Conversation from "../models/ConversationModel.js";
 import Message from "../models/messageModel.js";
 import { getRecipientSocketId, io } from "../socket/socket.js";
-import {v2 as cloudinary} from 'cloudinary'
-
+import cloudinary from "../cloudinary/cloudinary.js";
 export const sendMessage = async (req, res) => {
+        
       try {
             const { receiverId, message } = req.body;
             const senderId = req.user._id;
             let {img} = req.body;
             
             if(img){
+                  
                   const uploadResponse = await cloudinary.uploader.upload(img)
                   img=uploadResponse.secure_url
             }

@@ -1,13 +1,14 @@
 import User from '../models/userModel.js';
 import Post from '../models/postModel.js';
-import {v2 as cloudinary} from 'cloudinary'
+// import {v2 as cloudinary} from 'cloudinary';
+import cloudinary from '../cloudinary/cloudinary.js';
 
 export const createPost = async(req,res)=>{
       try {
            const {postedBy,text}=req.body;
            let {img} = req.body;
            if(!postedBy){
-            return res.status(400).json({error:"postedBy and text field are required"})
+            return res.status(400).json({error:"please login before create post"})
            }
            if(!text){
             return res.status(400).json({error:"text field is required"});
