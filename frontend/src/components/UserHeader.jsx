@@ -20,7 +20,6 @@ import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
 import { useSelector } from "react-redux";
 import useFollowUnfollow from "../hooks/useFollowUnfollow";
-
 const UserHeader = ({ user }) => {
       const toast = useToast()
       const currentUser = useSelector((state)=>state.user.preUser);      
@@ -104,7 +103,10 @@ const UserHeader = ({ user }) => {
       )}
       <Flex w={"full"} justifyContent={"space-between"}>
         <Flex gap={2} alignItems={"center"}>
-          <Text color={"gray.light"}>{user.followers.length} followers</Text>
+          {currentUser?._id === user._id ?<Text color={"gray.light"} as={Link} to={"/your-followers"}>{user.followers.length} followers</Text>
+           :
+           <Text color={"gray.light"}>{user.followers.length} followers</Text>
+        }
           <Box w="1" h="1" bg={"gray.light"} borderRadius={"full"}></Box>
           <Link color={"gray.light"}>instagram.com</Link>
         </Flex>

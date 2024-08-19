@@ -13,13 +13,13 @@ const Alluser = ({user}) => {
       <Flex gap={2} as={Link} to={`/${user.username}`}>
         <Avatar src={user.profilePic} size={"md"}/>
         <Box>
-            <Text fontSize={{base:"sm",md:"md",lg:"lg"}} fontWeight={"bold"}>{user.username}</Text>
+            <Text fontSize={{base:"sm",md:"md",lg:"lg"}} fontWeight={"bold"}>{user.username.length > 16 ? user.username.substring(0,16)+"...": user.username}</Text>
             <Text fontSize={{base:"sm",md:"md",lg:"lg"}} color={"gray.light"} >{user.name}</Text>
         </Box>
       </Flex>
 
       {/* right side */}
-      <Button size={{base:"sm",md:"md",lg:"lg"}} color={following?"black":"white"} bg={following?"white":"blue.400"} onClick={handleFollowUnFollow} isLoading={updating} _hover={{color:following?"black":"white", opacity:".8",}}>
+      <Button size={{base:"sm",md:"md",lg:"md"}} color={following?"black":"white"} bg={following?"white":"blue.400"} onClick={handleFollowUnFollow} isLoading={updating} _hover={{color:following?"black":"white", opacity:".8",}}>
          {following ? "Unfollow" : "Follow"}
       </Button>
 

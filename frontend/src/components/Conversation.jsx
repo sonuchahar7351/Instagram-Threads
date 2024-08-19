@@ -63,7 +63,7 @@ const Conversation = ({conversation, isOnline}) => {
       </WrapItem>
       <Stack direction={"column"} fontSize={"sm"}>
         <Text fontWeight={"700"} display={"flex"} alignItems={"center"}>
-          {user?.username} <Image src="/verified.png" w={"4"} h={"4"} ml={3} />
+          {user?.username.length > 15 ? user?.username.substring(0,15)+"...":user?.username} <Image src="/verified.png" w={"4"} h={"4"} ml={3} />
         </Text>
         <Text fontSize={"xs"} display={"flex"} alignItems={"center"} gap={1}>
           {currentUser?._id === lastMessage?.sender ?(

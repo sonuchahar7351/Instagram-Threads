@@ -1,5 +1,5 @@
 import express from 'express'
-import { signupUser,loginUser, logoutUser, followUnfollowUser, updateUserProfile, getUserProfile, getSuggestedUsers, getAllusers } from '../controllers/userController.js';
+import { signupUser,loginUser, logoutUser, followUnfollowUser, updateUserProfile, getUserProfile, getSuggestedUsers, getAllusers, getFollowers } from '../controllers/userController.js';
 import protectRoute from '../middleware/protectRoute.js';
 
 const router = express.Router();
@@ -11,6 +11,7 @@ router.post("/logout",logoutUser);
 router.post("/follow/:id", protectRoute, followUnfollowUser);
 router.put("/update/:id", protectRoute, updateUserProfile);
 router.get("/suggested-users", protectRoute, getSuggestedUsers);
+router.get("/your-followers/:id", protectRoute, getFollowers);
 
 
 

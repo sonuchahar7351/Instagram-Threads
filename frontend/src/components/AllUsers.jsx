@@ -1,10 +1,12 @@
-import { Box, Flex, Skeleton, SkeletonCircle, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Skeleton, SkeletonCircle, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
 import Alluser from "./AllUser";
+import { SearchIcon } from "@chakra-ui/icons";
 
 const AllUsers = () => {
   const [allUsers, setAllUsers] = useState([]);
+  const [search,setSearch] = useState("");
   const showToast = useShowToast();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -32,7 +34,24 @@ const AllUsers = () => {
         Your Friends Circle
       </Text>
       <Flex direction={"column"} gap={4}>
-      {!loading &&  allUsers.length > 0 ? (allUsers.map(user => <Alluser key={user._id} user={user}/>)) : <Text textAlign={"center"}>No users found</Text>}
+      <Flex alignItems={"center"} gap={2}>
+              <Input
+                placeholder="Search for a user"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <Button
+                size={{ base: "sm", md: "md", lg: "md" }}
+                // onClick={handleConversationSearch}
+                // isLoading={searchLoading}
+              >
+                <SearchIcon />
+              </Button>
+        </Flex>
+
+      {!loading &&  allUsers?.length > 0 && (allUsers.filter((user) =>{
+        return search.toLocaleLowerCase().trim() === "" ? user : user.username.toLocaleLowerCase().includes(search.toLocaleLowerCase().trim())
+      }).map(user => <Alluser key={user._id} user={user}/>))}
+      {!loading && allUsers?.length === 0 && <Text>No users found</Text>}
         {loading &&
           [1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map((i) => (
             <Flex

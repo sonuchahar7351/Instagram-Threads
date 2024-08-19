@@ -10,6 +10,7 @@ import UpdateProfile from "./pages/UpdateProfile";
 import CreatePost from "./components/CreatePost";
 import Chatpage from "./pages/Chatpage";
 import AllUsers from "./components/AllUsers";
+import YourFollowers from "./components/YourFollowers";
 
 function App() {
   const User = useSelector((state) => state.user.preUser);
@@ -49,6 +50,7 @@ function App() {
         <Route path="/:username/post/:pid" element={<PostPage />} />
         <Route path="/chat" element={User? <Chatpage />:<Navigate to="/auth" />} />
         <Route path="/all-users" element={User? <AllUsers />:<Navigate to="/auth" />} />
+        <Route path="/your-followers" element={ User ? <YourFollowers/> : <Navigate to="/auth"/>}/>
       </Routes>
     </Container>
           </Box>

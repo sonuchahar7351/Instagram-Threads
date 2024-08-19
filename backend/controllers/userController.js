@@ -87,6 +87,7 @@ export const followUnfollowUser = async (req, res) => {
             if (id === req.user._id.toString()) { return res.status(400).json({ error: "you cannot follow/unfollow yourself" }) };
             if (!userToModify || !currentUser) return res.status(400).json({ error: "user not found" })
             const isFollowing = currentUser.following.includes(id);
+
             if (isFollowing) {
                   await User.findByIdAndUpdate(req.user?._id, { $pull: { following: id } });
                   await User.findByIdAndUpdate(id, { $pull: { followers: req.user._id } });
@@ -208,5 +209,24 @@ export const getAllusers = async (req,res)=>{
             
       } catch (error) {
             res.status(500).json({error:"error while fetching users"});
+      }
+}
+
+export const getFollowers = async(req,res)=>{
+      const userId = req.params.id;
+      try {
+            const user = await User.findById(userId).populate({
+                  path: 'followers',
+                  select: '-password' // Exclude the password field
+              }); 
+            if (!user) {
+                  return res.status(404).json({ message: 'User not found' });
+              }
+      
+              // Return the followers
+              res.status(200).json(user.followers);
+       
+      } catch (error) {
+            
       }
 }
