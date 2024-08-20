@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {BsCheck2All} from 'react-icons/bs'
+import {BsCheck2All, BsFillImageFill} from 'react-icons/bs'
 import { setSelectedConversation } from "../features/selectedConversationSlice";
 
 const Conversation = ({conversation, isOnline}) => {
@@ -63,7 +63,7 @@ const Conversation = ({conversation, isOnline}) => {
       </WrapItem>
       <Stack direction={"column"} fontSize={"sm"}>
         <Text fontWeight={"700"} display={"flex"} alignItems={"center"}>
-          {user?.username.length > 15 ? user?.username.substring(0,15)+"...":user?.username} <Image src="/verified.png" w={"4"} h={"4"} ml={3} />
+          {user.username.length > 12 ?( user.username.substring(0,12)+"..."):user?.username} <Image src="/verified.png" w={"4"} h={"4"} ml={3} />
         </Text>
         <Text fontSize={"xs"} display={"flex"} alignItems={"center"} gap={1}>
           {currentUser?._id === lastMessage?.sender ?(
@@ -71,7 +71,7 @@ const Conversation = ({conversation, isOnline}) => {
                <BsCheck2All size={16}/> 
             </Box>
           ): ""}
-           {lastMessage?.text.length>18 ? lastMessage.text.substring(0,18)+"..." : lastMessage.text }
+           {lastMessage.text.length>18 ? (lastMessage.text.substring(0,18)+"...") : lastMessage.text || <BsFillImageFill size={16} /> }
         </Text>
       </Stack>
     </Flex>
