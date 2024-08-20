@@ -3,7 +3,7 @@ import https from 'https';
 
 const URL = 'https://sonu-threads.onrender.com';
 
-const job = new cron.CronJob("*/14 * * * * *", () => {
+const job = new cron.CronJob("30 * * * *", () => {
       https.get(URL,(res)=>{
             if(res.statusCode === 200){
               console.log("get request sent successfully");
