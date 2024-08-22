@@ -24,7 +24,7 @@ export default function UpdateProfile() {
     name: user.name,
     username: user.username,
     email: user.email,
-    password: "",
+    password: user.password,
     bio: user.bio,
   });
   const fileRef = useRef(null);
@@ -37,7 +37,7 @@ export default function UpdateProfile() {
   }
 
   const [hasChanges, setHasChanges] = useState(false);
-  const [isUpdated, setIsUpdated] = useState(false); // Track if the profile was updated
+  // const [isUpdated, setIsUpdated] = useState(false); // Track if the profile was updated
 
   useEffect(() => {
     const isChanged =
@@ -45,15 +45,10 @@ export default function UpdateProfile() {
       inputs.username !== user.username ||
       inputs.email !== user.email ||
       inputs.bio !== user.bio ||
-      (imageUrl && imageUrl !== user.profilePic); // Check if the new image is different
+      inputs.password !== user.password ||
+      (imageUrl && imageUrl !== user.profilePic); 
     setHasChanges(isChanged);
   }, [inputs, user, imageUrl]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setInputs((prevInputs) => ({ ...prevInputs, [name]: value }));
-    setIsUpdated(false); // Reset updated state on input change
-  };
 
   {
     /* ################################################################################## */
@@ -90,7 +85,10 @@ export default function UpdateProfile() {
       dispatch(setUser(data));
       localStorage.setItem("user-threads", JSON.stringify(data));
       showToast("success", "profile update succussfully", "success");
-      setIsUpdated(true);
+      // setIsUpdated(true);
+      setHasChanges(false);
+      window.location.reload();
+         
     } catch (error) {
       if (error.name === "AbortError") {
         showToast("info", "Profile update cancelled", "info");
@@ -139,7 +137,7 @@ export default function UpdateProfile() {
                 <Button
                   w="full"
                   onClick={() => fileRef.current.click()}
-                  isDisabled={isUpdated || updating}
+                  isDisabled={updating}
                 >
                   Change Avatar
                 </Button>
@@ -159,8 +157,8 @@ export default function UpdateProfile() {
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={inputs.name}
-              onChange={handleInputChange} // Use new change handler
-              isDisabled={isUpdated || updating}
+              onChange={(e)=>{setInputs({...inputs,name:e.target.value})}} // Use new change handler
+              isDisabled={updating}
             />
           </FormControl>
           <FormControl>
@@ -170,8 +168,8 @@ export default function UpdateProfile() {
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={inputs.username}
-              onChange={handleInputChange} // Use new change handler
-              isDisabled={isUpdated || updating}
+              onChange={(e)=>{setInputs({ ...inputs, username: e.target.value })}} // Use new change handler
+              isDisabled={updating}
             />
           </FormControl>
           <FormControl>
@@ -181,8 +179,8 @@ export default function UpdateProfile() {
               _placeholder={{ color: "gray.500" }}
               type="email"
               value={inputs.email}
-              onChange={handleInputChange} // Use new change handler
-              isDisabled={isUpdated || updating}
+              onChange={(e)=>{setInputs({ ...inputs, email: e.target.value })}} // Use new change handler
+              isDisabled={updating}
             />
           </FormControl>
           <FormControl>
@@ -192,8 +190,8 @@ export default function UpdateProfile() {
               _placeholder={{ color: "gray.500" }}
               type="text"
               value={inputs.bio}
-              onChange={handleInputChange} // Use new change handler
-              isDisabled={isUpdated || updating}
+              onChange={(e)=>{setInputs({ ...inputs, bio: e.target.value })}} // Use new change handler
+              isDisabled={updating}
             />
           </FormControl>
           <FormControl>
@@ -203,8 +201,8 @@ export default function UpdateProfile() {
               _placeholder={{ color: "gray.500" }}
               type="password"
               value={inputs.password}
-              onChange={handleInputChange} // Use new change handler
-              isDisabled={isUpdated || updating}
+              onChange={(e)=>{setInputs({ ...inputs, password: e.target.value })}} // Use new change handler
+              isDisabled={updating}
             />
           </FormControl>
           <Stack spacing={6} direction={["column", "row"]}>
@@ -243,7 +241,7 @@ export default function UpdateProfile() {
               }}
               type="submit"
               isLoading={updating}
-              isDisabled={!hasChanges || isUpdated}
+              isDisabled={!hasChanges}
             >
               Submit
             </Button>
